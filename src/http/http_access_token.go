@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/williamliang705/bookstore-oauth-api/src/domain/access_token"
 	"net/http"
-	"strings"
 )
 
 type AccessTokenHandler interface {
@@ -22,8 +21,7 @@ func NewHandler(service access_token.Service) AccessTokenHandler {
 }
 
 func (h *accessTokenHandler) GetById(c *gin.Context) {
-	accessTokenId := strings.TrimSpace(c.Param("access_token_id"))
-
+	accessTokenId := c.Param("access_token_id")
 	accessToken, err := h.service.GetById(accessTokenId)
 	if err != nil {
 		c.JSON(err.Status, err)
