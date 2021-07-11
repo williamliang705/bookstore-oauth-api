@@ -1,11 +1,11 @@
-package utils
+package errors
 
 import (
 	"errors"
 	"net/http"
 )
 
-type ResErr struct {
+type RestErr struct {
 	Message string `json:"message"`
 	Status  int    `json:"status"`
 	Error   string `json:"error"`
@@ -15,24 +15,24 @@ func NewError(msg string) error {
 	return errors.New(msg)
 }
 
-func NewsBadRequestError(message string) *ResErr {
-	return &ResErr{
+func NewsBadRequestError(message string) *RestErr {
+	return &RestErr{
 		Message: message,
 		Status:  http.StatusBadRequest,
 		Error:   "bad_request",
 	}
 }
 
-func NewNotFoundError(message string) *ResErr {
-	return &ResErr{
+func NewNotFoundError(message string) *RestErr {
+	return &RestErr{
 		Message: message,
 		Status:  http.StatusNotFound,
 		Error:   "not_found",
 	}
 }
 
-func NewInternalServeError(message string) *ResErr {
-	return &ResErr{
+func NewInternalServeError(message string) *RestErr {
+	return &RestErr{
 		Message: message,
 		Status:  http.StatusInternalServerError,
 		Error:   "internal_server_error",
