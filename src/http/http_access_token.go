@@ -22,11 +22,12 @@ func NewHandler(service access_token.Service) AccessTokenHandler {
 }
 
 func (h *accessTokenHandler) GetById(c *gin.Context) {
-	accessTokenId := strings.TrimSpace(c.Param("access-token_id"))
+	accessTokenId := strings.TrimSpace(c.Param("access_token_id"))
 
 	accessToken, err := h.service.GetById(accessTokenId)
 	if err != nil {
 		c.JSON(err.Status, err)
+		return
 	}
 	c.JSON(http.StatusOK, accessToken)
 }
