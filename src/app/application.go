@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/williamliang705/bookstore-oauth-api/src/clients/cassandra"
 	"github.com/williamliang705/bookstore-oauth-api/src/domain/access_token"
 	"github.com/williamliang705/bookstore-oauth-api/src/http"
 	"github.com/williamliang705/bookstore-oauth-api/src/repository/db"
@@ -12,6 +13,12 @@ var (
 )
 
 func StartApplication() {
+	session, dbErr := cassandra.GetSession()
+	if dbErr != nil {
+		panic(dbErr)
+	}
+	session.Close()
+
 	dbRepository := db.NewRepository()
 	atService := access_token.NewService(dbRepository)
 	atHandler := http.NewHandler(atService)
